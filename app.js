@@ -24,16 +24,16 @@ var con = mysql.createConnection({
 // FIM MYSQL
 // Correto
 app.get("/api/usuarios", function(req, res) {
-	con.query("SELECT * FROM customers", function (err, result, fields) {
+	con.query("SELECT * FROM users", function (err, result, fields) {
 	if (err) throw err;
-	console.log(result);
+	//console.log(result);
 	return res.send( result );
 	});
 });
 
 // Correto
 app.get("/api/usuarios/:id", function(req, res) {
-	con.query("SELECT * FROM customers WHERE `id` = " + req.params.id, function (err, result, fields) {
+	con.query("SELECT * FROM users WHERE `id` = " + req.params.id, function (err, result, fields) {
 	if (err) throw err;
 	if ( result.affectedRows === 0 ) {
 		return res.send( { "error": "not found" } );
@@ -44,8 +44,8 @@ app.get("/api/usuarios/:id", function(req, res) {
 });
 
 // Correto
-app.delete("/account/:id", function(req, res) {
-	con.query("DELETE FROM customers WHERE `id` = " + req.params.id, function (err, result, fields) {
+app.delete("/api/usuarios/:id", function(req, res) {
+	con.query("DELETE FROM users WHERE `id` = " + req.params.id, function (err, result, fields) {
 	if (err) throw err;
 	if ( result.affectedRows === 0 ) {
 		return res.send( { "error": "not found" } );
@@ -55,7 +55,7 @@ app.delete("/account/:id", function(req, res) {
 	});
 });
 
-// Correto
+// Correto, mas precisa rever os campos
 app.post("/account/", function(req, res) {
 	var nome = req.query.nome;
 	var sql = ("INSERT INTO customers (nome) VALUES ('" + nome + "')");
@@ -67,7 +67,7 @@ app.post("/account/", function(req, res) {
 });
 
 
-app.put("/account/", function(req, res) {
+app.put("/api/usuarios/", function(req, res) {
 	console.log( 'pingando' );
 	var set = req.query.set;
 	var setValue = req.query.setValue;
@@ -76,7 +76,7 @@ app.put("/account/", function(req, res) {
 
 	console.log( 'working' );
 
-	var sql = ("UPDATE customers SET " + set + " = '" + setValue + "' WHERE " + where + " = '" + whereParam + "'");
+	var sql = ("UPDATE users SET " + set + " = '" + setValue + "' WHERE " + where + " = '" + whereParam + "'");
 	console.log( sql );
 
 	con.query(sql, function (err, result) {
